@@ -1,37 +1,26 @@
 #include <iostream>
-#include <Windows.h> // Для виправлення символів '?' в консолі
+#include <Windows.h>
 #include "game.h"
 
 int main() {
-    // Налаштування української мови в консолі
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
 
-    int userSize;
-    std::cout << "ПРАКТИЧНА РОБОТА 4: Гра «П'ятнашки»\n";
-    std::cout << "Введіть бажаний розмір поля (" << MIN_SIZE << "-" << MAX_SIZE << "): ";
-    std::cin >> userSize;
+    int d;
+    std::cout << "Введіть розмір поля (3-9): ";
+    std::cin >> d;
 
-    // Перевірка допустимості розміру
-    if (userSize < MIN_SIZE || userSize > MAX_SIZE) {
-        std::cout << "Помилка! Розмір має бути в межах від 3 до 9.\n";
+    if (d < MIN_SIZE || d > MAX_SIZE) {
+        std::cout << "Некоректний розмір!\n";
         return 1;
     }
 
-    GameController myGame;
+    GameField myField;
+    myField.init(d);
+    myField.display();
 
-    // Ініціалізація каркаса програми
-    initGame(myGame, userSize);
+    std::cout << "Поле успішно ініціалізовано за правилом (зворотний порядок).\n";
 
-    std::cout << "Поле " << userSize << "x" << userSize << " успішно створено динамічно!\n";
-
-    // Вивід порожнього поля (демонстрація роботи структури)
-    displayField(myGame.field);
-
-    std::cout << "\nКаркас програми завершив роботу.\n";
-
-    // Обов'язкове звільнення пам'яті
-    cleanup(myGame.field);
-
+    myField.cleanup();
     return 0;
 }
